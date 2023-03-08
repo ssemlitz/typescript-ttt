@@ -54,3 +54,17 @@ function handleClick(evt: MouseEvent): void {
   switchPlayerTurn()
   render()
 }
+
+function checkForTie(): void {
+  if (board.includes(0)) return
+  tie = true
+}
+
+function checkForWinner(): void {
+  for (let combo of winningCombos) {
+    if (Math.abs(board[combo[0]] + board[combo[1]] + board[combo[2]]) === 3) {
+      winner = true
+    }
+  }
+}
+
