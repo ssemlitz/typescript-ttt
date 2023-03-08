@@ -59,3 +59,36 @@ function checkForWinner() {
         }
     }
 }
+function switchPlayerTurn() {
+    if (winner)
+        return;
+    turn *= -1;
+}
+function render() {
+    updateBoard();
+    updateMessage();
+}
+function updateBoard() {
+    board.forEach((boardVal, idx) => {
+        if (boardVal === 1) {
+            squareEls[idx].textContent = 'X';
+        }
+        else if (boardVal === -1) {
+            squareEls[idx].textContent = 'O';
+        }
+        else {
+            squareEls[idx].textContent = '';
+        }
+    });
+}
+function updateMessage() {
+    if (!winner && !tie) {
+        messageEl.textContent = `It's ${turn === 1 ? 'X' : 'O'}'s turn!`;
+    }
+    else if (!winner && tie) {
+        messageEl.textContent = "Cat's game! Meow!!!";
+    }
+    else {
+        messageEl.textContent = `Congratulations! ${turn === 1 ? 'X' : 'O'} wins! `;
+    }
+}

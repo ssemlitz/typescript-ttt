@@ -18,7 +18,7 @@ let tie: boolean
 
 /*------------------------ Cached Element References ------------------------*/
 const squareEls = document.querySelectorAll<HTMLDivElement>('.sqr')
-const messageEl = document.querySelector<HTMLHeadingElement>('#message') 
+const messageEl = document.querySelector<HTMLHeadingElement>('#message')! 
 const resetBtnEl = document.querySelector<HTMLButtonElement>('button')
 const boardEl = document.querySelector<HTMLElement>('.board')
 
@@ -68,3 +68,34 @@ function checkForWinner(): void {
   }
 }
 
+function switchPlayerTurn(): void {
+  if (winner) return
+  turn *= -1
+}
+
+function render(): void {
+  updateBoard()
+  updateMessage()
+}
+
+function updateBoard(): void {
+  board.forEach((boardVal, idx) => {
+    if (boardVal === 1) {
+      squareEls[idx].textContent = 'X'
+    } else if (boardVal === -1) {
+      squareEls[idx].textContent = 'O'
+    } else {
+      squareEls[idx].textContent = ''
+    }
+  })
+}
+
+function updateMessage(): void {
+  if (!winner && !tie) {
+    messageEl.textContent = `It's ${turn === 1 ? 'X' : 'O'}'s turn!`
+  } else if (!winner && tie) {
+    messageEl.textContent = "Cat's game! Meow!!!"
+  } else {
+    messageEl.textContent = `Congratulations! ${turn === 1 ? 'X' : 'O'} wins! `
+  }
+}
