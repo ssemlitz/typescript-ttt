@@ -11,7 +11,10 @@ const winningCombos = [
     [2, 4, 6]
 ];
 /*---------------------------- Variables (state) ----------------------------*/
-let board, turn, winner, tie;
+let board;
+let turn;
+let winner;
+let tie;
 /*------------------------ Cached Element References ------------------------*/
 const squareEls = document.querySelectorAll('.sqr');
 const messageEl = document.querySelector('#message');
@@ -20,4 +23,27 @@ const boardEl = document.querySelector('.board');
 /*----------------------------- Event Listeners -----------------------------*/
 boardEl?.addEventListener('click', handleClick);
 resetBtnEl?.addEventListener('click', init);
-/*-------------------------------- Functions --------------------------------*/ 
+/*-------------------------------- Functions --------------------------------*/
+init();
+function init() {
+    board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    turn = 1;
+    winner = false;
+    tie = false;
+    render();
+}
+function placePiece(idx) {
+    board[idx] = turn;
+}
+function handleClick(evt) {
+    if (!(evt.target instanceof HTMLElement))
+        return;
+    const sqIdx = parseInt(evt.target.id.replace('sq', ''));
+    if (board[sqIdx] !== 0 || winner)
+        return;
+    placePiece(sqIdx);
+    checkForTie();
+    checkForWinner();
+    switchPlayerTurn();
+    render();
+}

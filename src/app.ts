@@ -11,7 +11,10 @@ const winningCombos: number[][] = [
 ]
 
 /*---------------------------- Variables (state) ----------------------------*/
-let board, turn, winner, tie
+let board: number[]
+let turn: number 
+let winner: boolean
+let tie: boolean
 
 /*------------------------ Cached Element References ------------------------*/
 const squareEls = document.querySelectorAll<HTMLDivElement>('.sqr')
@@ -24,3 +27,30 @@ boardEl?.addEventListener('click', handleClick)
 resetBtnEl?.addEventListener('click', init)
 
 /*-------------------------------- Functions --------------------------------*/
+
+init()
+
+function init(): void {
+  board = [0,0,0,0,0,0,0,0,0]
+  turn = 1
+  winner = false
+  tie = false
+  render()
+}
+
+function placePiece(idx: number): void {
+  board[idx] = turn
+}
+
+function handleClick(evt: MouseEvent): void {
+  if (!(evt.target instanceof HTMLElement)) return
+
+  const sqIdx = parseInt(evt.target.id.replace('sq', ''))
+
+  if (board[sqIdx] !== 0 || winner) return
+  placePiece(sqIdx)
+  checkForTie()
+  checkForWinner()
+  switchPlayerTurn()
+  render()
+}
